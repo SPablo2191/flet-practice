@@ -1,9 +1,7 @@
 import flet as ft
 
-from components.task_item import get_task_item
-from components.task_list import get_task_list
 from components.todo_app import TodoApp
-from json_handler import json_reader, json_writer
+from json_handler import json_reader
 
 
 def main(page: ft.Page):
