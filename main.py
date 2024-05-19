@@ -2,7 +2,7 @@ import flet as ft
 
 from components.task_item import get_task_item
 from components.task_list import get_task_list
-from json_reader import json_reader, json_writer
+from json_handler import json_reader, json_writer
 
 
 def main(page: ft.Page):
@@ -49,6 +49,7 @@ def main(page: ft.Page):
     task_list = get_task_list(data)
     for task_item in task_list:
         task_item.on_change = complete_task
+
     # Data
     tasks = ft.Column(
         controls=task_list,
