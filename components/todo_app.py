@@ -17,10 +17,20 @@ from json_handler import json_writer
 
 class TodoApp(UserControl):
     def __init__(self, data: list[dict]):
+        """
+        Constructor:
+        Con este metodo formalmente se crea nuestro objeto cuando lo llamamos por su nombre (TodoApp()); este a su vez
+        recibe como parametro data, una lista diccionarios que la almacenaremos para su posterior uso.
+        """
         super().__init__()
         self.data = data
 
     def build(self):
+        """Constructor de la UI
+        Con este se podra crear cada componente que se utilizara para la aplicación
+        y se lo almacenara como atributo de la aplicación objeto
+        """
+        
         self.main_title = Text(value="To Do List", size=30, weight=FontWeight.BOLD)
         self.txt_input = TextField(
             hint_text="Ingrese un tarea por hacer...", expand=True
@@ -38,6 +48,11 @@ class TodoApp(UserControl):
             ],
             horizontal_alignment=CrossAxisAlignment.CENTER,
         )
+    """
+    Metodos:
+    Cada metodo de nuestra clase servira para responder a un evento que se desencadene en nuestra UI.
+    Ocuparian el lugar de nuestras funciones en el enfoque anterior.
+    """
 
     def load_task(self):
         task_list = []
