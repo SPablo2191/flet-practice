@@ -6,24 +6,37 @@ from json_handler import json_reader, json_writer
 
 
 def main(page: ft.Page):
-    # Configuration
+    """ Función main
+    es nuestra función "objetivo" en la cual definiremos todo lo que conformara la aplicación al ejecutarse.
+    """
+
+
+    """ Configuración
+    En esta primera parte definimos aspectos de nuestra page (todo nuestro lienzo en el que "dibujaremos" nuestros controles)
+    Aqui definimos cosas tan simples como el nombre que tendra nuestro programa al ejecutarse, como el tema o la fuente que
+    queramos utilizar.
+    """
     page.title = "To Do List"
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     data = json_reader()
 
-    # Events
+    """ Funciones Eventos
+    Aqui definiremos que funciones que se ejecuten cuando se desencadene un evento en especifico.
+    add_task, por ejemplo,cuando ocurra algun evento y esta este asociada a ese; añadira una task a la lista
+    y al mismo tiempo la añadira al archivo json.
+    """
     def add_task(e):
-        # get task
+        # obtener la información del espacio de texto
         new_task = txt_input.value
         txt_input.value = ""
         txt_input.update()
 
-        # write task in json
+        # escribimos la tarea en el json
         new_task_data = {"task": new_task, "value": False, "id": len(data) + 1}
         data.append(new_task_data)
         json_writer(data)
 
-        # add task in Column
+        # añadimos la tarea en el json
         tasks.controls.append(
             get_task_item(
                 task=new_task_data["task"],
@@ -34,28 +47,38 @@ def main(page: ft.Page):
         tasks.update()
         
     def complete_task(e):
+        # obtenemos el checkbox seleccionado
         new_value = e.control.value
         task_id = e.control.key
+        # lo buscamos en nuestra "base de datos"
         for item in data:
             if item['id'] == task_id:
                 item['value'] = new_value
                 break
+        # lo añadimos al json
         json_writer(data)
     
-    # Components
+    """ componentes / controles / widgets
+    aqui definimos y almacenamos en variables los distintos controles que podemos llegar a utilizar.
+    """
     txt_input = ft.TextField(hint_text="Ingrese un tarea por hacer...", expand=True)
     btn_add = ft.IconButton(icon=ft.icons.ADD_ROUNDED, on_click=add_task)
     main_title = ft.Text(value="To Do List", size=30, weight=ft.FontWeight.BOLD)
+
+    # le asignamos a cada checkbox la funcion a ejecutar cuando ocurra un evento "on_change"
     task_list = get_task_list(data)
     for task_item in task_list:
         task_item.on_change = complete_task
 
-    # Data
+    # creamos la lista de checkboxes
     tasks = ft.Column(
         controls=task_list,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         alignment=ft.MainAxisAlignment.CENTER,
     )
+    """Montaje
+    Aqui añadimos o montamos los componentes creados en nuestra aplicación formalmente.
+    """
     page.add(
         ft.Column(
             controls=[
